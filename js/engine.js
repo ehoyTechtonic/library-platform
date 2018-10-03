@@ -43,7 +43,7 @@ Library.prototype.removeBookByAuthor = function(author) {
 Library.prototype.getRandomBook = function() {
   randomNumber = Math.floor(Math.random() * this.bookShelf.length);
   console.log(this.bookShelf[randomNumber]);
-  if (this.bookShelf[randomNumber].length > 0) }
+  if (this.bookShelf[randomNumber].length > 0) {
     return this.bookShelf[randomNumber];
   } else {
     return null;
@@ -68,9 +68,13 @@ Library.prototype.getBookByAuthor = function(author) {
   console.log(authorArray);
 };
 
-Library.prototype.addBooks = function(books) {
-  var args = Array.prototype.slice.call(arguments, 1);
-  console.log(args);
+Library.prototype.addBooks = function() {
+  console.log(arguments.length);
+  for (j=0; j<arguments.length; j++) {
+    console.log(arguments[j]);
+    this.addBook(arguments[j]);
+  }
+  return true;
 };
 
 Library.prototype.getAuthors = function() {
