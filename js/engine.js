@@ -73,7 +73,8 @@ Library.prototype.getAuthors = function() {
 };
 
 Library.prototype.getRandomAuthorName = function() {
-
+  randomNumber = Math.floor(Math.random() * this.bookShelf.length);
+  console.log(this.bookShelf[randomNumber].author);
 };
 
 document.addEventListener("DOMContentLoaded", function(e) {
