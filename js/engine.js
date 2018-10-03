@@ -65,7 +65,13 @@ Library.prototype.getBookByTitle = function(title) {
 };
 
 Library.prototype.getBookByAuthor = function(author) {
-
+  var authorArray = [];
+  for (var i in this.bookShelf) {
+    if (this.bookShelf[i].author === author) {
+      authorArray.push(this.bookShelf[i])
+    }
+  }
+  console.log(authorArray);
 };
 
 Library.prototype.addBooks = function(books) {
