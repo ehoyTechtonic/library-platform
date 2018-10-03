@@ -9,8 +9,10 @@ Library.prototype.addBook = function(book) {
     for (i=0; i<this.bookShelf.length; i++) {
       if (this.bookShelf[i].title !== book.title) {
         gLibrary.saveBook(book);
+        return true;
       }
     }
+    return false;
   }
 };
 
@@ -26,10 +28,12 @@ Library.prototype.saveBook = function(book) {
 Library.prototype.removeBookByTitle = function(title) {
   if(this.bookShelf.length > 0) {
     for (i=0; i<this.bookShelf.length; i++) {
+      console.log(this.bookShelf[i]);
       if (this.bookShelf[i].title === title) {
-        this.bookShelf[i].splice(i,1);
+        // alert('delete' + title);
+        this.bookShelf.splice(i,1);
       } else {
-        alert('dont delete');
+        // alert('dont delete' + title);
       }
     }
   }
