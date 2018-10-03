@@ -57,7 +57,11 @@ Library.prototype.getRandomBook = function() {
 };
 
 Library.prototype.getBookByTitle = function(title) {
-
+  for (var i in this.bookShelf) {
+    if (this.bookShelf[i].title === title) {
+      console.log(this.bookShelf[i])
+    }
+  }
 };
 
 Library.prototype.getBookByAuthor = function(author) {
