@@ -3,13 +3,21 @@ function Library() {
 };
 
 Library.prototype.addBook = function(book) {
-  if(this.bookShelf.length === 0) {
-    gLibrary.saveBook(book);
-    return true;
-  } else {
-    for (i=0; i<this.bookShelf.length; i++) {
-      if (this.bookShelf[i].title !== book.title) {
-        gLibrary.saveBook(book);
+  for (i=0; i<this.bookShelf.length; i++) {
+    if (this.bookShelf[i].title === book.title) {
+      // gLibrary.saveBook(book);
+      return false;
+    }
+  }
+  this.bookShelf.push(book)
+  return true;
+};
+
+Library.prototype.removeBookByTitle = function(title) {
+  if(this.bookShelf.length > 0) {
+    for (var i in this.bookShelf) {
+      if (this.bookShelf[i].title === title) {
+        this.bookShelf.splice(i,1);
         return true;
       }
     }
@@ -17,27 +25,8 @@ Library.prototype.addBook = function(book) {
   }
 };
 
-Library.prototype.saveBook = function(book) {
-  this.bookShelf.push({
-    title:book.title,
-    author:book.author,
-    numPages:book.numPages,
-    pubDate:book.pubDate
-  });
-}
-
-Library.prototype.removeBookByTitle = function(title) {
-  if(this.bookShelf.length > 0) {
-    for (var i in this.bookShelf) {
-      if (this.bookShelf[i].title === title) {
-        this.bookShelf.splice(i,1);
-      }
-    }
-  }
-};
-
 //Only removes one instance of author.
-//Array length is dynamic?
+//Array.length is dynamic?
 Library.prototype.removeBookByAuthor = function(author) {
   if(this.bookShelf.length > 0) {
     var x = this.bookShelf.length;
@@ -54,6 +43,11 @@ Library.prototype.removeBookByAuthor = function(author) {
 Library.prototype.getRandomBook = function() {
   randomNumber = Math.floor(Math.random() * this.bookShelf.length);
   console.log(this.bookShelf[randomNumber]);
+  if (this.bookShelf[randomNumber].length > 0) }
+    return this.bookShelf[randomNumber];
+  } else {
+    return null;
+  }
 };
 
 Library.prototype.getBookByTitle = function(title) {
@@ -75,7 +69,8 @@ Library.prototype.getBookByAuthor = function(author) {
 };
 
 Library.prototype.addBooks = function(books) {
-
+  var args = Array.prototype.slice.call(arguments, 1);
+  console.log(args);
 };
 
 Library.prototype.getAuthors = function() {
@@ -86,6 +81,7 @@ Library.prototype.getAuthors = function() {
     }
   }
   console.log(authorArray);
+  return true;
 };
 
 Library.prototype.getRandomAuthorName = function() {
@@ -95,4 +91,13 @@ Library.prototype.getRandomAuthorName = function() {
 
 document.addEventListener("DOMContentLoaded", function(e) {
   window.gLibrary = new Library();
+
+  window.book1 = new Book("1984", "orwell", 200, "jan 1");
+  window.book2 = new Book("animal farm", "orwell", 200, "dec 1");
+  window.book3 = new Book("siddhartha", "hesse", 200, "jan 1");
+  window.book4 = new Book("death of ivan ilyich", "tolstoy", 200, "dec 1");
+  window.book5 = new Book("jitterbug perfume", "robbins", 200, "jan 1");
+  window.book6 = new Book("half asleep in frog pajamas", "robbins", 200, "dec 1");
+  window.book7 = new Book("brave new world", "huxley", 200, "jan 1");
+  window.book8 = new Book("the island", "huxley", 200, "dec 1");
 });
