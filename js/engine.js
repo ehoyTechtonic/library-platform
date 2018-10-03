@@ -8,7 +8,7 @@ Library.prototype.addBook = function(book) {
       return false;
     }
   }
-  this.bookShelf.push(book)
+  this.bookShelf.push(book);
   return true;
 };
 
@@ -24,16 +24,14 @@ Library.prototype.removeBookByTitle = function(title) {
   }
 };
 
-//Only removes one instance of author.
-//Array.length is dynamic?
 Library.prototype.removeBookByAuthor = function(author) {
   if(this.bookShelf.length > 0) {
-    // var x = this.bookShelf.length;
-    // for (i=0; i<x; i++) {
-    var removed = "";
-    for (var i in this.bookShelf) {
-      if (this.bookShelf[i].author === author) {
-        removed += this.bookShelf.splice(i,1);
+    var removed = ""
+    for (j=0; j<this.bookShelf.length; j++) {
+      for (i=0; i<this.bookShelf.length; i++) {
+        if (this.bookShelf[i].author === author) {
+          removed += this.bookShelf.splice(i,1);
+        }
       }
     }
     if (removed.length > 0) {
@@ -103,11 +101,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
   window.gLibrary = new Library();
 
   window.book1 = new Book("1984", "orwell", 200, "jan 1");
-  window.book2 = new Book("animal farm", "orwell", 200, "dec 1");
-  window.book3 = new Book("siddhartha", "hesse", 200, "jan 1");
-  window.book4 = new Book("death of ivan ilyich", "tolstoy", 200, "dec 1");
-  window.book5 = new Book("jitterbug perfume", "robbins", 200, "jan 1");
-  window.book6 = new Book("half asleep in frog pajamas", "robbins", 200, "dec 1");
-  window.book7 = new Book("brave new world", "huxley", 200, "jan 1");
-  window.book8 = new Book("the island", "huxley", 200, "dec 1");
+  window.book2 = new Book("down and out in paris and london", "orwell", 200, "jan 1");
+  window.book3 = new Book("animal farm", "orwell", 200, "dec 1");
+  window.book4 = new Book("siddhartha", "hesse", 200, "jan 1");
+  window.book5 = new Book("death of ivan ilyich", "tolstoy", 200, "dec 1");
+  window.book6 = new Book("jitterbug perfume", "robbins", 200, "jan 1");
+  window.book7 = new Book("half asleep in frog pajamas", "robbins", 200, "dec 1");
+  window.book8 = new Book("brave new world", "huxley", 200, "jan 1");
+  window.book9 = new Book("the island", "huxley", 200, "dec 1");
 });
