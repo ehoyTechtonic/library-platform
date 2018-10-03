@@ -59,7 +59,7 @@ Library.prototype.getRandomBook = function() {
 Library.prototype.getBookByTitle = function(title) {
   for (var i in this.bookShelf) {
     if (this.bookShelf[i].title === title) {
-      console.log(this.bookShelf[i])
+      console.log(this.bookShelf[i]);
     }
   }
 };
@@ -79,7 +79,13 @@ Library.prototype.addBooks = function(books) {
 };
 
 Library.prototype.getAuthors = function() {
-
+  var authorArray = [];
+  for (var i in this.bookShelf) {
+    if (authorArray.indexOf(this.bookShelf[i].author) == -1) {
+      authorArray.push(this.bookShelf[i].author);
+    }
+  }
+  console.log(authorArray);
 };
 
 Library.prototype.getRandomAuthorName = function() {
