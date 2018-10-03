@@ -5,6 +5,7 @@ function Library() {
 Library.prototype.addBook = function(book) {
   if(this.bookShelf.length === 0) {
     gLibrary.saveBook(book);
+    return true;
   } else {
     for (i=0; i<this.bookShelf.length; i++) {
       if (this.bookShelf[i].title !== book.title) {
@@ -27,24 +28,32 @@ Library.prototype.saveBook = function(book) {
 
 Library.prototype.removeBookByTitle = function(title) {
   if(this.bookShelf.length > 0) {
-    for (i=0; i<this.bookShelf.length; i++) {
-      console.log(this.bookShelf[i]);
+    for (var i in this.bookShelf) {
       if (this.bookShelf[i].title === title) {
-        // alert('delete' + title);
         this.bookShelf.splice(i,1);
-      } else {
-        // alert('dont delete' + title);
       }
     }
   }
 };
 
+//Only removes one instance of author.
+//Array length is dynamic?
 Library.prototype.removeBookByAuthor = function(author) {
-
+  if(this.bookShelf.length > 0) {
+    var x = this.bookShelf.length;
+    // for (i=0; i<x; i++) {
+    for (var i in this.bookShelf) {
+      // console.log(this.bookShelf[i]);
+      if (this.bookShelf[i].author === author) {
+        this.bookShelf.splice(i,1);
+      }
+    }
+  }
 };
 
 Library.prototype.getRandomBook = function() {
-
+  randomNumber = Math.floor(Math.random() * this.bookShelf.length);
+  console.log(this.bookShelf[randomNumber]);
 };
 
 Library.prototype.getBookByTitle = function(title) {
