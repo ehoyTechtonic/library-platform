@@ -6,16 +6,11 @@ function Book (title, author, numPages, pubDate) {
 }
 
 Book.prototype.editBook = function(oBook) {
-  for (i=0; i<this.bookShelf.length; i++) {
-    if (this.bookShelf[i] === oBook.title) {
-      this.bookShelf[i].title = oBook.title;
-      this.bookShelf[i].author = oBook.author;
-      this.bookShelf[i].numPages = oBook.numPages;
-      this.bookShelf[i].pubDate = oBook.pubDate;
-    }
+  if (this.title === oBook.title) {
+    this.title = oBook.title;
+    this.author = oBook.author;
+    this.numPages = oBook.numPages;
+    this.pubDate = oBook.pubDate;
+    return this;
   }
 }
-// 
-// document.addEventListener("DOMContentLoaded", function(e) {
-//   window.gBook = new Book();
-// });
