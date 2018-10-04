@@ -6,11 +6,17 @@ function Book (title, author, numPages, pubDate) {
 }
 
 Book.prototype.editBook = function(oBook) {
-  if (this.title === oBook.title) {
+  if (oBook.title) {
     this.title = oBook.title;
-    this.author = oBook.author;
-    this.numPages = oBook.numPages;
-    this.pubDate = oBook.pubDate;
-    return this;
   }
+  if (oBook.author) {
+    this.author = oBook.author;
+  }
+  if (oBook.numPages) {
+    this.numPages = oBook.numPages;
+  }
+  if (oBook.pubDate) {
+    this.pubDate = oBook.pubDate;
+  }
+  return this;
 }

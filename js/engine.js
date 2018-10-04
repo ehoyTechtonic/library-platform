@@ -9,6 +9,8 @@ Library.prototype.addBook = function(book) {
     }
   }
   this.bookShelf.push(book);
+  var newArr = JSON.stringify(this.bookShelf);
+  window.localStorage.setItem('this.bookShelf', newArr);
   return true;
 };
 
@@ -44,8 +46,9 @@ Library.prototype.removeBookByAuthor = function(author) {
 
 Library.prototype.getRandomBook = function() {
   randomNumber = Math.floor(Math.random() * this.bookShelf.length);
-  if (this.bookShelf.length > 0) {
-    return this.bookShelf[randomNumber];
+  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
+  if (newArr2.length > 0) {
+    return newArr2[randomNumber];
   } else {
     return null;
   }
@@ -77,9 +80,10 @@ Library.prototype.addBooks = function() {
 
 Library.prototype.getAuthors = function() {
   var authorArray = [];
-  for (var i in this.bookShelf) {
-    if (authorArray.indexOf(this.bookShelf[i].author) == -1) {
-      authorArray.push(this.bookShelf[i].author);
+  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
+  for (var i in newArr2) {
+    if (this.bookShelf.length > 0) {
+      authorArray.push(newArr2[i].author);
     }
   }
   return authorArray;
@@ -87,8 +91,9 @@ Library.prototype.getAuthors = function() {
 
 Library.prototype.getRandomAuthorName = function() {
   randomNumber = Math.floor(Math.random() * this.bookShelf.length);
-  if (this.bookShelf.length > 0) {
-    return this.bookShelf[randomNumber].author;
+  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
+  if (newArr2.length > 0) {
+    return newArr2[randomNumber].author;
   } else {
     return null;
   }
