@@ -58,7 +58,8 @@ Library.prototype.getBookByTitle = function(title) {
   function getBookArray(book) {
     return book.title.includes(title);
   }
-  var bookArray = this.bookShelf.filter(getBookArray);
+  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
+  var bookArray = newArr2.filter(getBookArray);
   return bookArray;
 };
 
@@ -66,7 +67,8 @@ Library.prototype.getBookByAuthor = function(author) {
   function getAuthorArray(book) {
     return book.author.includes(author);
   }
-  var authorArray = this.bookShelf.filter(getAuthorArray);
+  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
+  var authorArray = newArr2.filter(getAuthorArray);
   return authorArray;
 };
 
