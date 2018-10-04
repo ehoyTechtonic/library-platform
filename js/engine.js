@@ -44,8 +44,7 @@ Library.prototype.removeBookByAuthor = function(author) {
       }
     }
     if (removed.length > 0) {
-      // return ;
-      return JSON.parse(window.localStorage.getItem('arr'));
+      return true;
     } else {
       return false;
     }
@@ -109,20 +108,21 @@ Library.prototype.getRandomAuthorName = function() {
   }
 };
 
+//Not working when searching numPages
 Library.prototype.search = function() {
   var newArr = JSON.parse(window.localStorage.getItem('arr'));
   var bookArray = new Array();
-  var newBook = "";
   function getBookArray(book) {
     if (book.title.includes(searchTerm)) {
       if (bookArray.length === 0) {
         bookArray.push(book);
       } else {
         for (var i=0; i<bookArray.length; i++) {
-          if (book.title !== bookArray[i].title) {
-            bookArray.push(book);
+          if (book.title === bookArray[i].title) {
+            break;
           }
         }
+        bookArray.push(book);
       }
     }
     if (book.author.includes(searchTerm)) {
@@ -130,10 +130,11 @@ Library.prototype.search = function() {
         bookArray.push(book);
       } else {
         for (var i=0; i<bookArray.length; i++) {
-          if (book.title !== bookArray[i].title) {
-            bookArray.push(book);
+          if (book.title === bookArray[i].title) {
+            break;
           }
         }
+        bookArray.push(book);
       }
     }
     // if (book.numPages.includes(searchTerm)) {
@@ -152,31 +153,32 @@ Library.prototype.search = function() {
         bookArray.push(book);
       } else {
         for (var i=0; i<bookArray.length; i++) {
-          if (book.title !== bookArray[i].title) {
-            bookArray.push(book);
+          if (book.title === bookArray[i].title) {
+            break;
           }
         }
+        bookArray.push(book);
       }
     }
   }
-  for (j=0; j<arguments.length; j++) {
+  for (var j=0; j<arguments.length; j++) {
     searchTerm = arguments[j];
     var authorArray = newArr.filter(getBookArray);
   }
-  // console.log(bookArray);
   return bookArray;
 }
 
 document.addEventListener("DOMContentLoaded", function(e) {
   window.gLibrary = new Library();
 
-  window.book1 = new Book("1984", "orwell", 200, "jan 1");
-  window.book2 = new Book("down and out in paris and london", "orwell", 200, "jan 1");
-  window.book3 = new Book("animal farm", "orwell", 200, "dec 1");
-  window.book4 = new Book("siddhartha", "hesse", 200, "jan 1");
-  window.book5 = new Book("death of ivan ilyich", "tolstoy", 200, "dec 1");
-  window.book6 = new Book("jitterbug perfume", "robbins", 200, "jan 1");
-  window.book7 = new Book("half asleep in frog pajamas", "robbins", 200, "dec 1");
-  window.book8 = new Book("brave new world", "huxley", 200, "jan 1");
-  window.book9 = new Book("the island", "huxley", 200, "dec 1");
+  window.book1 = new Book("1984", "orwell", 200, "July 20, 39 00:20:18");
+  window.book2 = new Book("down and out in paris and london", "orwell", 200, "July 20, 39 00:20:18");
+  window.book3 = new Book("animal farm", "orwell", 200, "July 20, 39 00:20:18");
+  window.book4 = new Book("siddhartha", "hesse", 200, "July 20, 39 00:20:18");
+  window.book5 = new Book("death of ivan ilyich", "tolstoy", 200, "July 20, 39 00:20:18");
+  window.book6 = new Book("jitterbug perfume", "robbins", 200, "July 20, 39 00:20:18");
+  window.book7 = new Book("half asleep in frog pajamas", "robbins", 200, "July 20, 39 00:20:18");
+  window.book8 = new Book("brave new world", "huxley", 200, "July 20, 39 00:20:18");
+  window.book9 = new Book("the island", "huxley", 200, "July 20, 39 00:20:18");
+  window.book10 = new Book("the devils", "huxley", 200, "July 20, 39 00:20:18");
 });
