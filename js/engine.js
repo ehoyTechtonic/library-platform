@@ -9,16 +9,20 @@ Library.prototype.addBook = function(book) {
     }
   }
   this.bookShelf.push(book);
-  var newArr = JSON.stringify(this.bookShelf);
-  window.localStorage.setItem('this.bookShelf', newArr);
+  var arr = this.bookShelf;
+  var newArr = JSON.stringify(arr);
+  window.localStorage.setItem('arr', newArr);
   return true;
 };
 
 Library.prototype.removeBookByTitle = function(title) {
-  if(this.bookShelf.length > 0) {
-    for (var i in this.bookShelf) {
-      if (this.bookShelf[i].title === title) {
-        this.bookShelf.splice(i,1);
+  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  if(newArr.length > 0) {
+    for (var i in newArr) {
+      if (newArr[i].title === title) {
+        newArr.splice(i,1);
+        var newArr2 = JSON.stringify(newArr);
+        window.localStorage.setItem('newArr', newArr2);
         return true;
       }
     }
@@ -27,17 +31,21 @@ Library.prototype.removeBookByTitle = function(title) {
 };
 
 Library.prototype.removeBookByAuthor = function(author) {
-  if(this.bookShelf.length > 0) {
+  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  if(newArr.length > 0) {
     var removed = ""
-    for (j=0; j<this.bookShelf.length; j++) {
-      for (i=0; i<this.bookShelf.length; i++) {
-        if (this.bookShelf[i].author === author) {
-          removed += this.bookShelf.splice(i,1);
+    for (j=0; j<newArr.length; j++) {
+      for (i=0; i<newArr.length; i++) {
+        if (newArr[i].author === author) {
+          removed += newArr.splice(i,1);
+          var newArr2 = JSON.stringify(newArr);
+          window.localStorage.setItem('arr', newArr2);
         }
       }
     }
     if (removed.length > 0) {
-      return true;
+      // return ;
+      return JSON.parse(window.localStorage.getItem('arr'));
     } else {
       return false;
     }
@@ -45,10 +53,10 @@ Library.prototype.removeBookByAuthor = function(author) {
 };
 
 Library.prototype.getRandomBook = function() {
-  randomNumber = Math.floor(Math.random() * this.bookShelf.length);
-  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
-  if (newArr2.length > 0) {
-    return newArr2[randomNumber];
+  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  randomNumber = Math.floor(Math.random() * newArr.length);
+  if (newArr.length > 0) {
+    return newArr[randomNumber];
   } else {
     return null;
   }
@@ -58,8 +66,8 @@ Library.prototype.getBookByTitle = function(title) {
   function getBookArray(book) {
     return book.title.includes(title);
   }
-  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
-  var bookArray = newArr2.filter(getBookArray);
+  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  var bookArray = newArr.filter(getBookArray);
   return bookArray;
 };
 
@@ -67,8 +75,8 @@ Library.prototype.getBookByAuthor = function(author) {
   function getAuthorArray(book) {
     return book.author.includes(author);
   }
-  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
-  var authorArray = newArr2.filter(getAuthorArray);
+  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  var authorArray = newArr.filter(getAuthorArray);
   return authorArray;
 };
 
@@ -82,20 +90,20 @@ Library.prototype.addBooks = function() {
 
 Library.prototype.getAuthors = function() {
   var authorArray = [];
-  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
-  for (var i in newArr2) {
+  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  for (var i in newArr) {
     if (this.bookShelf.length > 0) {
-      authorArray.push(newArr2[i].author);
+      authorArray.push(newArr[i].author);
     }
   }
   return authorArray;
 };
 
 Library.prototype.getRandomAuthorName = function() {
-  randomNumber = Math.floor(Math.random() * this.bookShelf.length);
-  var newArr2 = JSON.parse(window.localStorage.getItem('this.bookShelf'));
-  if (newArr2.length > 0) {
-    return newArr2[randomNumber].author;
+  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  randomNumber = Math.floor(Math.random() * newArr.length);
+  if (newArr.length > 0) {
+    return newArr[randomNumber].author;
   } else {
     return null;
   }
