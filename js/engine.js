@@ -1,6 +1,13 @@
-function Library() {
-  this.bookShelf = new Array();
-};
+(function() {//SINGLETON
+  var instance;
+  Library = function() {
+    if (instance) { //if a instance of library already exists this will point the newly made library to the Singleton instance
+      return instance;
+    }
+    instance = this; //if a instance of library does not yet exist this will get and set the instance name for the new library
+    this.bookShelf = new Array();
+  }
+})();
 
 Library.prototype.addBook = function(book) {
   for (i=0; i<this.bookShelf.length; i++) {
@@ -114,30 +121,13 @@ Library.prototype.search = function() {
   var bookArray = new Array();
   function getBookArray(book) {
     if (book.title.includes(searchTerm)) {
-      if (bookArray.length === 0) {
-        bookArray.push(book);
-      } else {
-        for (var i=0; i<bookArray.length; i++) {
-          if (book.title === bookArray[i].title) {
-            break;
-          }
-        }
-        bookArray.push(book);
-      }
+      pushToArray(book);
     }
     if (book.author.includes(searchTerm)) {
-      if (bookArray.length === 0) {
-        bookArray.push(book);
-      } else {
-        for (var i=0; i<bookArray.length; i++) {
-          if (book.title === bookArray[i].title) {
-            break;
-          }
-        }
-        bookArray.push(book);
-      }
+      pushToArray(book);
     }
-    // if (book.numPages.includes(searchTerm)) {
+    if (book.numPages.includes(searchTerm)) {
+      pushToArray(book);
     //   if (bookArray.length === 0) {
     //     bookArray.push(book);
     //   } else {
@@ -147,18 +137,21 @@ Library.prototype.search = function() {
     //       }
     //     }
     //   }
-    // }
+    }
     if (book.pubDate.includes(searchTerm)) {
-      if (bookArray.length === 0) {
-        bookArray.push(book);
-      } else {
-        for (var i=0; i<bookArray.length; i++) {
-          if (book.title === bookArray[i].title) {
-            break;
-          }
+      pushToArray(book);
+    }
+  }
+  function pushToArray(book) {
+    if (bookArray.length === 0) {
+      bookArray.push(book);
+    } else {
+      for (var i=0; i<bookArray.length; i++) {
+        if (book.title === bookArray[i].title) {
+          break;
         }
-        bookArray.push(book);
       }
+      bookArray.push(book);
     }
   }
   for (var j=0; j<arguments.length; j++) {
@@ -171,14 +164,14 @@ Library.prototype.search = function() {
 document.addEventListener("DOMContentLoaded", function(e) {
   window.gLibrary = new Library();
 
-  window.book1 = new Book("1984", "orwell", 200, "July 20, 39 00:20:18");
-  window.book2 = new Book("down and out in paris and london", "orwell", 200, "July 20, 39 00:20:18");
-  window.book3 = new Book("animal farm", "orwell", 200, "July 20, 39 00:20:18");
-  window.book4 = new Book("siddhartha", "hesse", 200, "July 20, 39 00:20:18");
-  window.book5 = new Book("death of ivan ilyich", "tolstoy", 200, "July 20, 39 00:20:18");
-  window.book6 = new Book("jitterbug perfume", "robbins", 200, "July 20, 39 00:20:18");
-  window.book7 = new Book("half asleep in frog pajamas", "robbins", 200, "July 20, 39 00:20:18");
-  window.book8 = new Book("brave new world", "huxley", 200, "July 20, 39 00:20:18");
-  window.book9 = new Book("the island", "huxley", 200, "July 20, 39 00:20:18");
-  window.book10 = new Book("the devils", "huxley", 200, "July 20, 39 00:20:18");
+  window.book1 = new Book("1984", "orwell", "200", "July 20, 39 00:20:18");
+  window.book2 = new Book("down and out in paris and london", "orwell", "200", "July 20, 39 00:20:18");
+  window.book3 = new Book("animal farm", "orwell", "200", "July 20, 39 00:20:18");
+  window.book4 = new Book("siddhartha", "hesse", "200", "July 20, 39 00:20:18");
+  window.book5 = new Book("death of ivan ilyich", "tolstoy", "200", "July 20, 39 00:20:18");
+  window.book6 = new Book("jitterbug perfume", "robbins", "200", "July 20, 39 00:20:18");
+  window.book7 = new Book("half asleep in frog pajamas", "robbins", "200", "July 20, 39 00:20:18");
+  window.book8 = new Book("brave new world", "huxley", "200", "July 20, 39 00:20:18");
+  window.book9 = new Book("the island", "huxley", "200", "July 20, 39 00:20:18");
+  window.book10 = new Book("the devils", "huxley", "200", "July 20, 39 00:20:18");
 });
