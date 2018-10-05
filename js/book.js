@@ -7,7 +7,8 @@ function Book (title, author, numPages, pubDate) {
 
 Book.prototype.editBook = function(oBook) {
   var newArr = JSON.parse(window.localStorage.getItem('arr'));
-  console.log(newArr);
+  //console.log(newArr);
+  // var newArr = new Array();
   if (oBook.title) {
     console.log(this.title);
     this.title = oBook.title;
@@ -25,7 +26,8 @@ Book.prototype.editBook = function(oBook) {
   // console.log(this);
   newArr.push(this);
   // console.log(arr);
-  newArr2 = JSON.stringify(newArr);
-  window.localStorage.setItem('newArr', newArr2);
+  // newArr2 = JSON.stringify(newArr);
+  // window.localStorage.setItem('newArr', newArr2);
+  gLibrary.setLocalStorage(newArr);
   return this;
 }

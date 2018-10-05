@@ -10,15 +10,14 @@
 })();
 
 Library.prototype.addBook = function(book) {
-  for (i=0; i<this.bookShelf.length; i++) {
-    if (this.bookShelf[i].title === book.title) {
+  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  for (i=0; i<newArr.length; i++) {
+    if (newArr[i].title === book.title) {
       return false;
     }
   }
-  this.bookShelf.push(book);
-  var arr = this.bookShelf;
-  var newArr = JSON.stringify(arr);
-  window.localStorage.setItem('arr', newArr);
+  newArr.push(book);
+  this.setLocalStorage(newArr);
   return true;
 };
 
@@ -28,8 +27,7 @@ Library.prototype.removeBookByTitle = function(title) {
     for (var i in newArr) {
       if (newArr[i].title === title) {
         newArr.splice(i,1);
-        var newArr2 = JSON.stringify(newArr);
-        window.localStorage.setItem('newArr', newArr2);
+        this.setLocalStorage(newArr);
         return true;
       }
     }
@@ -45,11 +43,14 @@ Library.prototype.removeBookByAuthor = function(author) {
       for (i=0; i<newArr.length; i++) {
         if (newArr[i].author === author) {
           removed += newArr.splice(i,1);
+          this.setLocalStorage(newArr);
           var newArr2 = JSON.stringify(newArr);
           window.localStorage.setItem('arr', newArr2);
         }
       }
     }
+    var newArr = JSON.parse(window.localStorage.getItem('arr'));
+    console.log(newArr);
     if (removed.length > 0) {
       return true;
     } else {
@@ -98,7 +99,7 @@ Library.prototype.getAuthors = function() {
   var authorArray = [];
   var newArr = JSON.parse(window.localStorage.getItem('arr'));
   for (var i in newArr) {
-    if (this.bookShelf.length > 0) {
+    if (newArr.length > 0) {
       authorArray.push(newArr[i].author);
     }
   }
@@ -115,9 +116,8 @@ Library.prototype.getRandomAuthorName = function() {
   }
 };
 
-//Not working when searching numPages
 Library.prototype.search = function() {
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
+  var newArr = this.getLocalStorage();
   var bookArray = new Array();
   function getBookArray(book) {
     if (book.title.includes(searchTerm)) {
@@ -128,15 +128,6 @@ Library.prototype.search = function() {
     }
     if (book.numPages.includes(searchTerm)) {
       pushToArray(book);
-    //   if (bookArray.length === 0) {
-    //     bookArray.push(book);
-    //   } else {
-    //     for (var i=0; i<bookArray.length; i++) {
-    //       if (book.title !== bookArray[i].title) {
-    //         bookArray.push(book);
-    //       }
-    //     }
-    //   }
     }
     if (book.pubDate.includes(searchTerm)) {
       pushToArray(book);
@@ -159,6 +150,15 @@ Library.prototype.search = function() {
     var authorArray = newArr.filter(getBookArray);
   }
   return bookArray;
+}
+
+Library.prototype.setLocalStorage = function(arr) {
+  var newArr = JSON.stringify(arr);
+  window.localStorage.setItem('arr', newArr);
+}
+
+Library.prototype.getLocalStorage = function(arr) {
+  return JSON.parse(window.localStorage.getItem('arr'))
 }
 
 document.addEventListener("DOMContentLoaded", function(e) {
