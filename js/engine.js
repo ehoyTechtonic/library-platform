@@ -1,33 +1,39 @@
-(function() {//SINGLETON
+(function() {
   var instance;
   Library = function() {
-    if (instance) { //if a instance of library already exists this will point the newly made library to the Singleton instance
+    if (instance) {
       return instance;
     }
-    instance = this; //if a instance of library does not yet exist this will get and set the instance name for the new library
-    this.bookShelf = new Array();
+    instance = this;
+    this.bookShelf = [];
   }
 })();
 
+/**
+ * @param   {Object} book
+ * @return  true if it is not already added, false if it is already added
+ */
 Library.prototype.addBook = function(book) {
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
-  for (i=0; i<newArr.length; i++) {
-    if (newArr[i].title === book.title) {
+  for (i=0; i<this.bookShelf.length; i++) {
+    if (this.bookShelf[i].title === book.title) {
       return false;
     }
   }
-  newArr.push(book);
-  this.setLocalStorage(newArr);
+  this.bookShelf.push(book);
+  this.setLocalStorage(this.bookShelf);
   return true;
 };
 
+/**
+ * @param   {string} title
+ * @return  true if the book was removed, false if no books matched
+ */
 Library.prototype.removeBookByTitle = function(title) {
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
-  if(newArr.length > 0) {
-    for (var i in newArr) {
-      if (newArr[i].title === title) {
-        newArr.splice(i,1);
-        this.setLocalStorage(newArr);
+  if(this.bookShelf.length > 0) {
+    for (var i in this.bookShelf) {
+      if (this.bookShelf[i].title === title) {
+        this.bookShelf.splice(i,1);
+        this.setLocalStorage(this.bookShelf);
         return true;
       }
     }
@@ -35,22 +41,21 @@ Library.prototype.removeBookByTitle = function(title) {
   }
 };
 
+/**
+ * @param   {string} author
+ * @return  true if book(s) were removed, false if no books match
+ */
 Library.prototype.removeBookByAuthor = function(author) {
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
-  if(newArr.length > 0) {
+  if(this.bookShelf.length > 0) {
     var removed = ""
-    for (j=0; j<newArr.length; j++) {
-      for (i=0; i<newArr.length; i++) {
-        if (newArr[i].author === author) {
-          removed += newArr.splice(i,1);
+    for (j=0; j<this.bookShelf.length; j++) {
+      for (i=0; i<this.bookShelf.length; i++) {
+        if (this.bookShelf[i].author === author) {
+          removed += this.bookShelf.splice(i,1);
           this.setLocalStorage(newArr);
-          var newArr2 = JSON.stringify(newArr);
-          window.localStorage.setItem('arr', newArr2);
         }
       }
     }
-    var newArr = JSON.parse(window.localStorage.getItem('arr'));
-    console.log(newArr);
     if (removed.length > 0) {
       return true;
     } else {
@@ -59,34 +64,39 @@ Library.prototype.removeBookByAuthor = function(author) {
   }
 };
 
+/**
+ * @return  true if the book was removed, false if no books matched
+ */
+// change order of logic
 Library.prototype.getRandomBook = function() {
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
-  randomNumber = Math.floor(Math.random() * newArr.length);
-  if (newArr.length > 0) {
-    return newArr[randomNumber];
+  randomNumber = Math.floor(Math.random() * this.bookShelf.length);
+  if (this.bookShelf.length > 0) {
+    return this.bookShelf[randomNumber];
   } else {
     return null;
   }
 };
 
+// add @param and @return
 Library.prototype.getBookByTitle = function(title) {
   function getBookArray(book) {
     return book.title.includes(title);
   }
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
-  var bookArray = newArr.filter(getBookArray);
+  var bookArray = this.bookShelf.filter(getBookArray);
   return bookArray;
 };
 
+// add @param and @return
 Library.prototype.getBookByAuthor = function(author) {
   function getAuthorArray(book) {
     return book.author.includes(author);
   }
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
-  var authorArray = newArr.filter(getAuthorArray);
+  var authorArray = this.bookShelf.filter(getAuthorArray);
   return authorArray;
 };
 
+// add @param and @return
+// read in array, don't use arguments
 Library.prototype.addBooks = function() {
   var addCount = 0;
   for (j=0; j<arguments.length; j++) {
@@ -95,30 +105,43 @@ Library.prototype.addBooks = function() {
   return addCount;
 };
 
+// add @param and @return
 Library.prototype.getAuthors = function() {
   var authorArray = [];
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
-  for (var i in newArr) {
-    if (newArr.length > 0) {
-      authorArray.push(newArr[i].author);
+  var count = 0;
+  if (this.bookShelf.length > 0) {
+    for (var i in newArr) {
+      if (authorArray.length === 0) {
+        authorArray.push(newArr[i].author);
+      } else {
+        for (var j in authorArray) {
+          if (this.bookShelf[i].author === authorArray[j]) {
+            count++;
+          }
+        }
+        if (count === 0) {
+          authorArray.push(this.bookShelf[i].author);
+        }
+      }
     }
   }
   return authorArray;
 };
 
+// add @param and @return
+// change order of logic
 Library.prototype.getRandomAuthorName = function() {
-  var newArr = JSON.parse(window.localStorage.getItem('arr'));
   randomNumber = Math.floor(Math.random() * newArr.length);
-  if (newArr.length > 0) {
-    return newArr[randomNumber].author;
+  if (this.bookShelf.length > 0) {
+    return this.bookShelf[randomNumber].author;
   } else {
     return null;
   }
 };
 
+// add @param and @return
 Library.prototype.search = function() {
-  var newArr = this.getLocalStorage();
-  var bookArray = new Array();
+  var bookArray = [];
   function getBookArray(book) {
     if (book.title.includes(searchTerm)) {
       pushToArray(book);
@@ -147,23 +170,31 @@ Library.prototype.search = function() {
   }
   for (var j=0; j<arguments.length; j++) {
     searchTerm = arguments[j];
-    var authorArray = newArr.filter(getBookArray);
+    var authorArray = this.bookShelf.filter(getBookArray);
   }
   return bookArray;
 }
 
+// add @param and @return
 Library.prototype.setLocalStorage = function(arr) {
   var newArr = JSON.stringify(arr);
   window.localStorage.setItem('arr', newArr);
 }
 
-Library.prototype.getLocalStorage = function(arr) {
-  return JSON.parse(window.localStorage.getItem('arr'))
+// add @param and @return
+Library.prototype.getLocalStorage = function() {
+  var myArr = JSON.parse(window.localStorage.getItem('arr'));
+  for (var i = 0; i < myArr.length; i++) {
+    new Book(myArr[i].title,myArr[i].author,myArr[i].numPages,myArr[i].pubDate);
+  }
+  this.bookShelf = myArr;
+  return this.bookShelf;
 }
 
+// add @param and @return
 document.addEventListener("DOMContentLoaded", function(e) {
   window.gLibrary = new Library();
-
+  gLibrary.bookShelf = gLibrary.getLocalStorage();
   window.book1 = new Book("1984", "orwell", "200", "July 20, 39 00:20:18");
   window.book2 = new Book("down and out in paris and london", "orwell", "200", "July 20, 39 00:20:18");
   window.book3 = new Book("animal farm", "orwell", "200", "July 20, 39 00:20:18");
